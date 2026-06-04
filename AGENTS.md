@@ -1,100 +1,100 @@
 # AGENTS.md
 
-Guia para agentes y colaboradores que trabajen en `TaskFlowSPA`.
+Guide for contributors and agents working on `TaskFlowSPA`.
 
-## Mision del proyecto
+## Project mission
 
-Construir una SPA de gestion de tareas con JavaScript Vanilla, HTML, CSS y Tailwind CSS que sirva como practica de arquitectura frontend moderna, modularizacion, routing del lado del cliente y control de acceso sin usar frameworks SPA.
+Build a task management SPA with vanilla JavaScript, HTML, CSS, and Tailwind CSS. The app should teach modern frontend architecture, client-side routing, modular design, and access control without relying on a SPA framework.
 
-## Tipo de arquitectura
+## Architecture
 
-Este repositorio usa una arquitectura frontend simple por capas (`layered architecture`) pensada para una primera SPA.
+This repository uses a simple layered frontend architecture designed for a learning SPA.
 
-La prioridad no es aplicar una estructura compleja, sino ayudar a que el estudiante entienda con claridad como se separan las responsabilidades principales de la aplicacion:
+The goal is not to overengineer the structure, but to make responsibilities clear and easy to follow:
 
-- `client/main.js` inicia la app.
-- `client/router/` gestiona navegacion y proteccion basica de rutas.
-- `client/views/` contiene las pantallas.
-- `client/components/` agrupa piezas reutilizables.
-- `api/` maneja datos, sesion y backend fake.
-- `client/utils/` concentra helpers pequenos.
-- `client/styles/` organiza estilos globales.
+- `client/main.js` boots the application.
+- `client/router/` manages navigation and route guards.
+- `client/views/` contains page views.
+- `client/components/` holds reusable UI pieces.
+- `api/` handles data access, session management, and the fake backend.
+- `client/utils/` contains small helper functions.
+- `client/styles/` contains global styling.
 
-## Prioridades del repositorio
+## Repository priorities
 
-1. Mantener la aplicacion simple y entendible.
-2. Separar vista, logica, estado y acceso a datos.
-3. Evitar soluciones acopladas o dificiles de explicar.
-4. Conservar una experiencia SPA fluida sin recargas completas.
-5. Respetar roles, permisos y proteccion de rutas en cada cambio.
+1. Keep the application simple and easy to understand.
+2. Separate view rendering, business logic, state, and data access.
+3. Avoid tightly coupled solutions.
+4. Preserve a smooth SPA experience with no full page reloads.
+5. Validate roles, permissions and route protection consistently.
 
-## Stack y restricciones
+## Stack and constraints
 
-- JavaScript Vanilla con modulos ES.
-- HTML y CSS.
-- Tailwind CSS para la construccion de vistas y utilidades de interfaz.
-- Vite como entorno de desarrollo.
-- Backend fake con `json-server`.
-- No introducir React, Vue, Angular ni librerias que desplacen el objetivo pedagogico del proyecto.
+- vanilla JavaScript with ES modules
+- HTML and CSS
+- Tailwind CSS for UI and layout
+- Vite for development
+- fake backend via `json-server`
+- no React, Vue, Angular, or SPA frameworks
 
-## Principios de implementacion
+## Implementation principles
 
-- Cada modulo debe tener una responsabilidad clara.
-- La manipulacion del DOM debe permanecer organizada y predecible.
-- La logica de negocio no debe quedar incrustada en listeners o plantillas extensas.
-- El acceso a `localStorage`, `sessionStorage` o APIs remotas debe envolverse en utilidades o servicios.
-- Las validaciones de autenticacion y permisos deben centralizarse.
+- Each module should have a clear responsibility.
+- DOM manipulation should stay organized and predictable.
+- Business logic should not be embedded inside large listeners or templates.
+- Access to `localStorage`, remote APIs, or backend services should be wrapped in helpers or services.
+- Authentication and permission validation should be centralized.
 
-## Dominios funcionales
+## Functional domains
 
-### Autenticacion
+### Authentication
 
-- Login y logout.
-- Persistencia de sesion con `localStorage`.
-- Restauracion de sesion al recargar desde `localStorage`.
-- Edicion del perfil del usuario autenticado.
-- Eliminacion de la propia cuenta.
+- login and logout
+- session persistence using `localStorage`
+- restore session on refresh
+- profile editing for the signed-in user
+- user self-deletion
 
 ### Routing
 
-- Navegacion con `History API`.
-- Rutas publicas y privadas.
-- Fallback 404.
-- Guards antes del render.
+- client-side navigation with the History API
+- public and private routes
+- 404 fallback route
+- guards before rendering protected pages
 
-### Tareas
+### Tasks
 
-- Listado de tareas.
-- Creacion, edicion y eliminacion.
-- Filtros o estados basicos si se implementan.
-- Restriccion por propietario para usuarios `USER`.
+- task listing
+- create, edit, delete tasks
+- optional filters/status view if implemented
+- owner-only restrictions for `USER` role
 
-### Administracion
+### Administration
 
-- Solo accesible para `ADMIN`.
-- Gestion de usuarios.
-- Visualizacion global de tareas.
-- Cambio de roles y permisos si el modulo lo incluye.
+- admin-only access
+- user management view
+- global task view for admin
+- role and permission management if included
 
-## Roles base
+## Base roles
 
 ### `ADMIN`
 
-- Acceso total al sistema.
-- Gestiona usuarios.
-- Visualiza todas las tareas.
-- Modifica roles y permisos.
+- full access to the system
+- manages users
+- sees all tasks
+- adjusts roles and permissions
 
 ### `USER`
 
-- Gestiona solo sus tareas.
-- Ve solo informacion propia.
-- Edita su propio perfil.
-- Puede eliminar su propia cuenta.
+- manages only their own tasks
+- views only their own data
+- edits their own profile
+- can delete their own account
 
-## Convenciones sugeridas de estructura
+## Suggested structure
 
-Usar o aproximarse a una organizacion como esta:
+Aim for an organization like this:
 
 ```text
 client/
@@ -110,58 +110,58 @@ api/
   storageService.js
 ```
 
-## Criterios para nuevas contribuciones
+## Contribution criteria
 
-- Antes de agregar codigo, identificar si pertenece a `router`, `views`, `components`, `services`, `utils` o `styles`.
-- Si una pieza se reutiliza entre vistas, moverla a `components`.
-- Si una funcion conoce endpoints, almacenamiento o fetch, moverla a `services`.
-- Si una regla depende de autenticacion o permisos, evaluarla dentro del router o en una utilidad sencilla de autorizacion.
-- No duplicar plantillas o logica cuando una abstraccion simple pueda resolverlo.
+- determine whether new code belongs in `router`, `views`, `components`, `services`, `utils`, or `styles`.
+- move reusable pieces into `components`.
+- move storage, API, or endpoint logic into `services`.
+- keep authorization rules in the router or a small auth utility.
+- avoid duplicating templates or logic when a simple abstraction will do.
 
-## Reglas de UI y renderizado
+## UI and rendering rules
 
-- Las vistas deben renderizarse dinamicamente en un contenedor raiz.
-- La navegacion interna debe usar el router SPA, no recargas con enlaces tradicionales.
-- Tailwind CSS es la base para construir las vistas, manteniendo una interfaz consistente y facil de escalar.
-- Mantener la interfaz clara y consistente, priorizando legibilidad y estructura.
-- Evitar mezclar estilos inline con logica salvo que exista una razon puntual.
+- render views dynamically into a root container.
+- use the SPA router for internal navigation, not full page reload links.
+- use Tailwind CSS for consistent presentation.
+- keep the UI clear, consistent, and readable.
+- avoid mixing inline styles with logic unless there is a strong reason.
 
-## Datos y persistencia
+## Data and persistence rules
 
-- El backend fake sera la fuente principal de datos persistentes.
-- `json-server` debe manejar principalmente recursos como `users` y `tasks`.
-- La sesion activa debe persistirse en `localStorage` para simplificar la autenticacion de esta primera SPA.
-- El manejo de `localStorage` debe estar encapsulado en utilidades o servicios.
-- No asumir permisos solo por ocultar botones; validar acceso tambien en guards y acciones.
-- Las acciones sobre perfil deben limitarse al propio usuario, salvo privilegios administrativos explicitos.
+- the fake backend should be the main source of persistent data.
+- `json-server` should manage `users` and `tasks`.
+- active session data should persist in `localStorage`.
+- encapsulate `localStorage` use in utilities or services.
+- do not rely on hidden buttons for permission checks; enforce access in guards and actions.
+- profile actions should be limited to the current user unless admin privileges explicitly allow otherwise.
 
-## Calidad esperada
+## Quality expectations
 
-- Funciones pequenas y con nombres claros.
-- Modulos cohesivos.
-- Flujo de datos facil de seguir.
-- Comentarios solo cuando aporten contexto real.
-- Evitar codigo muerto y archivos multiproposito.
+- small functions with clear names
+- cohesive modules
+- easy-to-follow data flow
+- comments only where they add real value
+- avoid dead code and multipurpose files
 
-## Orden recomendado de construccion
+## Recommended build order
 
-1. Router SPA base.
-2. Layout principal.
-3. Modulo de autenticacion.
-4. Manejo de sesion.
-5. Guards de rutas.
-6. CRUD de tareas.
-7. Dashboard.
-8. Panel administrativo.
+1. base SPA router
+2. main layout
+3. authentication module
+4. session handling
+5. route guards
+6. tasks CRUD
+7. dashboard
+8. admin panel
 
-## Que debe evitar un agente
+## What agents should avoid
 
-- Introducir frameworks SPA.
-- Resolver todo en un solo archivo.
-- Acoplar vistas directamente a estructuras rigidas de datos.
-- Saltarse validaciones de rol por simplicidad temporal.
-- Romper la navegacion SPA usando recargas completas innecesarias.
+- introducing SPA frameworks
+- solving everything in one file
+- coupling views to rigid data structures
+- skipping role validation for convenience
+- breaking SPA navigation with full page reloads
 
-## Definicion de exito
+## Definition of success
 
-Una contribucion es correcta si ayuda a que `TaskFlowSPA` siga siendo una SPA modular, entendible y escalable, con autenticacion, rutas protegidas, roles claros y un CRUD de tareas coherente con los permisos de cada usuario.
+A contribution is correct if it helps keep `TaskFlowSPA` as a modular, understandable, and scalable SPA with authentication, protected routes, clear roles, and task CRUD behavior aligned with user permissions.
