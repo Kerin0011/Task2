@@ -1,0 +1,12 @@
+{
+  "name": "taskflowspa",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix client run dev",
+    "build": "npm --prefix client run build",
+    "preview": "npm --prefix client run preview",
+    "api": "npm --prefix api run start",
+    "server": "npm --prefix api run server"
+  }
+}

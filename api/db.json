@@ -1,0 +1,23 @@
+{
+  "users": [
+    {
+      "id": "SHD-kJ0fL-g",
+      "name": "kerin",
+      "lastName": "barranco",
+      "email": "kerin1234@gmail.com",
+      "password": "123456",
+      "role": "ADMIN"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "d3KT8gCsrh8",
+      "userId": "SHD-kJ0fL-g",
+      "title": "123",
+      "description": "444",
+      "status": "Pendiente",
+      "dueDate": "3333-03-03"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
